@@ -165,15 +165,16 @@ function showScene(name) {
 
   function onGiftClick() {
 
-    if (clicked) return;
-    clicked = true;
+  if (clicked) return;
+  clicked = true;
 
-    // 🎶 música
-    const musica = document.getElementById("musica");
-    if (musica) {
-      musica.play().catch(() => {});
-    }
+  // 🎶 AQUI ENTRA A MÚSICA
+  const musica = document.getElementById("musica");
 
+  if (musica) {
+    musica.currentTime = 0;
+    musica.play().catch(() => {});
+    
     // animação do presente
     wrap.classList.add('gift-click');
 
