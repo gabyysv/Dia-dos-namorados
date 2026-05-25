@@ -154,39 +154,37 @@ function showScene(name) {
 
 
 /* ═══════════════════════════════════════════════════
-   CENA 1 — PRESENTE
-═══════════════════════════════════════════════════ */
+   CENA 1 — PRESENTE ══════════════════════════ */
+
+
 (function initGift() {
 
-  const wrap = $('giftWrap');
-  const hint = $('hintPull');
+  const wrap = document.getElementById('giftWrap');
+  const hint = document.getElementById('hintPull');
+
+  if (!wrap) return;
 
   let clicked = false;
 
   function onGiftClick() {
 
-  if (clicked) return;
-  clicked = true;
+    if (clicked) return;
+    clicked = true;
 
-  // 🎶 AQUI ENTRA A MÚSICA
-  const musica = document.getElementById("musica");
-
-  if (musica) {
-    musica.currentTime = 0;
-    musica.play().catch(() => {});
-    
-    // animação do presente
+    // animação
     wrap.classList.add('gift-click');
 
-    // explosão de corações
+    // explosão
     setTimeout(() => {
       burstFromBox();
     }, 200);
 
-    // muda texto
+    // texto
     setTimeout(() => {
-      hint.textContent = 'Descubra o que tem dentro…';
-      hint.style.animation = 'none';
+      if (hint) {
+        hint.textContent = 'Descubra o que tem dentro…';
+        hint.style.animation = 'none';
+      }
     }, 500);
 
     // próxima cena
@@ -195,10 +193,8 @@ function showScene(name) {
     }, 1700);
   }
 
-  if (wrap) {
-    wrap.addEventListener('click', onGiftClick);
-    wrap.addEventListener('touchstart', onGiftClick, { passive: true });
-  }
+  wrap.addEventListener('click', onGiftClick);
+  wrap.addEventListener('touchstart', onGiftClick, { passive: true });
 
 })();
 
@@ -282,49 +278,40 @@ function initLetter() {
 
   setTimeout(() => {
     wrap.classList.add('envelope-idle');
-  }, 950);
+  }, 500);
 
   function onEnvelopeClick() {
 
     if (clicked) return;
-
     clicked = true;
 
     wrap.classList.remove('envelope-idle');
 
-    // abre aba
-    flap.style.transformOrigin = '120px 60px';
+    // abre a aba (ANIMAÇÃO REAL)
+    flap.style.transition = "transform 0.8s ease";
+    flap.style.transformOrigin = "120px 60px";
+    flap.style.transform = "rotateX(180deg)";
 
-    flap.classList.add('flap-open');
-
-    // muda texto
+    // texto
     setTimeout(() => {
-
       hint.textContent = 'Uma mensagem para você…';
-      hint.style.animation = 'none';
+    }, 300);
 
-    }, 400);
-
-    // envelope sobe
+    // sai envelope
     setTimeout(() => {
-      wrap.classList.add('envelope-exit');
-    }, 650);
+      wrap.style.transition = "transform 0.6s ease, opacity 0.6s ease";
+      wrap.style.transform = "translateY(-40px)";
+      wrap.style.opacity = "0";
+    }, 900);
 
     // próxima cena
     setTimeout(() => {
       goToCard();
-    }, 1200);
-
+    }, 1500);
   }
 
   wrap.addEventListener('click', onEnvelopeClick);
-
-  wrap.addEventListener(
-    'touchstart',
-    onEnvelopeClick,
-    { passive: true }
-  );
-
+  wrap.addEventListener('touchstart', onEnvelopeClick, { passive: true });
 }
 
 
